@@ -16,6 +16,10 @@ a, b, c = None, None, None
 video_file ='C:\\yonsangpark\\opencv\\KakaoTalk_20240922_130937638.mp4'
 cap = cv2.VideoCapture(video_file)
 
+fps = cap.get(cv2.CAP_PROP_FPS)
+delay = int(1000/fps)
+print("FPS : %f, Delay : %d ms" %(fps, delay))
+
 if cap.isOpened():
     ret, a = cap.read()         # a 프레임 읽기
     ret, b = cap.read()         # b 프레임 읽기
