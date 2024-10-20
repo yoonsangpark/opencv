@@ -8,10 +8,6 @@ max_diff = 5   # 달라진 픽셀 갯수 기준치 설정
 
 # 동영상 장치 준비
 a, b, c = None, None, None
-#cap = cv2.VideoCapture(0)
-#cap.set(cv2.CAP_PROP_FRAME_WIDTH, 480)      # 프레임 폭을 480으로 설정 
-#cap.set(cv2.CAP_PROP_FRAME_HEIGHT, 320)     # 프레임 높이를 320으로 설정
-
 
 video_file ='C:\\yonsangpark\\opencv\\KakaoTalk_20240922_130937638.mp4'
 cap = cv2.VideoCapture(video_file)
@@ -20,11 +16,22 @@ fps = cap.get(cv2.CAP_PROP_FPS)
 delay = int(1000/fps)
 print("FPS : %f, Delay : %d ms" %(fps, delay))
 
+total_frmaes = cap.get(cv2.CAP_PROP_FRAME_COUNT)
+print("total_frmaes : %d " %(total_frmaes))
+
+frm_idx = 0
 if cap.isOpened():
+
+    cap.set(cv2.CAP_PROP_POS_FRAMES, frm_idx)
     ret, a = cap.read()         # a 프레임 읽기
+
+    frm_idx += fps
+    cap.set(cv2.CAP_PROP_POS_FRAMES, frm_idx)
     ret, b = cap.read()         # b 프레임 읽기
 
     while ret:
+        frm_idx += fps
+        cap.set(cv2.CAP_PROP_POS_FRAMES, frm_idx)        
         ret, c = cap.read()     # c 프레임 읽기
         draw = c.copy()         # 출력 영상에 사용할 복제본
         if not ret:
